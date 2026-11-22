@@ -1,44 +1,255 @@
-# Nand to Tetris I — Capstone Project Report
-## Make the Computer Draw a Box
+# Hack Computer Architecture
 
-**Name:** [VIJAYA SAXENA]  
-**Roll number:** [2501010182]  
-**Personal number K:** 82  
-**Course:** Nand to Tetris – I (ETCCNT301)
+**Nand to Tetris – I | ETCCNT301**
 
-## 1. Objective and personalized requirements
-The aim is to integrate the Hack computer using HDL, build a two-pass assembler in Python, and write a keyboard-controlled screen drawing program in Hack assembly. My personal number is K=82. The box starts at row 82, is 20 rows tall, and has a width of 16*((82 mod 4)+1) = 48 pixels. Because 82 mod 3 = 1, the assembler includes clear error messages with source line numbers.
+A capstone project implementing the Hack computer architecture using Hardware Description Language (HDL), Hack Assembly Language, and Python.
 
-## 2. Part A — Computer construction
-The CPU combines an A register, D register, ALU and program counter to execute Hack instructions. Memory maps RAM16K, Screen and Keyboard to the Hack address space. Computer connects ROM32K, CPU and Memory. The HDL source files are CPU.hdl, Memory.hdl and Computer.hdl.
+---
 
-**Test evidence (insert your actual screenshots and record actual status):**
-- CPU.tst: [PASS / FAIL / NOT RUN] — [screenshot]
-- Memory.tst: [PASS / FAIL / NOT RUN] — [screenshot]
-- ComputerAdd.tst: [PASS / FAIL / NOT RUN] — [screenshot]
-- ComputerMax.tst: [PASS / FAIL / NOT RUN] — [screenshot]
-- ComputerRect.tst: [PASS / FAIL / NOT RUN] — [screenshot]
+## Overview
 
-**Built-in chips used, if any:** [List actual substitutions, or 'None' if none]
+This repository contains the capstone project **"Make the Computer Draw a Box"**, developed as part of the Nand to Tetris – I course at K.R. Mangalam University.
 
-## 3. Part B — Python assembler
-The first pass removes comments and blank lines and records labels with their ROM instruction addresses. The second pass converts A-instructions and C-instructions into 16-bit binary. Variables are allocated starting at RAM address 16. The assembler uses translation tables for computation, destination and jump fields. My K-specific extension reports invalid instructions with their original source line number, for example `Line 7: invalid C-instruction: THIS_IS_NOT_A_HACK_INSTRUCTION`.
+The project demonstrates the working of a computer system through three main components:
 
-**Official assembler comparison (record actual results):**
-- Add.asm: [MATCH / MISMATCH / NOT TESTED]
-- Max.asm: [MATCH / MISMATCH / NOT TESTED]
-- Rect.asm: [MATCH / MISMATCH / NOT TESTED]
-- Pong.asm: [MATCH / MISMATCH / NOT TESTED]
+1. **Hardware Implementation:** Building the Hack CPU, Memory, and Computer using HDL.
+2. **Assembler Development:** Developing a two-pass assembler in Python to convert Hack assembly instructions into binary machine code.
+3. **Assembly Programming:** Creating a keyboard-controlled black rectangle on the Hack computer screen.
 
-[Insert assembler run screenshot and error demonstration screenshot]
+## Student Details
 
-## 4. Part C — Keyboard-controlled box
-Box.asm reads KBD. When a key is pressed, the color is -1 (all 16 pixels in a screen word are black); when released, the color is 0 (white). The program starts at address SCREEN + 32*82 = 19008. Each row writes 3 words, representing 48 pixels, and skips 29 words to reach the next row. The outer loop processes 20 rows and repeats the keyboard check continuously. The provided Python assembler generates Box.hack from Box.asm.
+| Field | Details |
+|---|---|
+| Name | Vijaya Saxena |
+| Roll Number | 25010182 |
+| Personal Number (K) | 82 |
+| Course | Nand to Tetris – I |
+| Course Code | ETCCNT301 |
+| University | K.R. Mangalam University |
+| School | School of Engineering & Technology |
 
-**CPU Emulator screenshot showing the black box:** [Insert actual screenshot]
+---
 
-## 5. One mistake fixed
-[Replace this placeholder with ONE genuine mistake you personally observed and fixed while testing. Explain the symptom, what you changed, and how you verified the fix. Do not invent a debugging experience.]
+## Personalized Project Specifications
 
-## 6. Conclusion
-The project demonstrates the connection between Hack hardware, binary instruction encoding and memory-mapped screen/keyboard I/O. [Add your actual test outcomes here.]
+The rectangle dimensions and assembler feature are calculated using the personal number **K = 82**.
+
+| Calculation | Result |
+|---|---|
+| K | 82 |
+| K mod 3 | 1 |
+| K mod 4 | 2 |
+| Rectangle Width | 48 pixels |
+| Rectangle Height | 20 rows |
+| Starting Row | 82 |
+| Ending Row | 101 |
+| Starting Screen Address | 19008 |
+| Assembler Extra Feature | Line-numbered error messages |
+
+### Rectangle Width Calculation
+
+Width = 16 × ((K mod 4) + 1)
+
+Width = 16 × (2 + 1)
+
+**Width = 48 pixels**
+
+### Starting Screen Address
+
+Screen Address = 16384 + (32 × K)
+
+= 16384 + (32 × 82)
+
+**Starting Address = 19008**
+
+The rectangle occupies 3 consecutive 16-bit words per row and extends across 20 rows.
+
+---
+
+## Part A: Hack Computer Hardware Implementation
+
+The hardware implementation consists of three main HDL components.
+
+### 1. CPU.hdl
+Implements the central processing unit responsible for executing Hack machine instructions, performing ALU operations, and controlling program execution.
+
+### 2. Memory.hdl
+Implements the memory system, integrating RAM, screen memory, and keyboard input.
+
+### 3. Computer.hdl
+Connects the CPU, Memory, and ROM32K to form the complete Hack computer architecture.
+
+### Official Test Files
+
+The following test scripts are used to verify the hardware implementation:
+
+- CPU.tst
+- Memory.tst
+- ComputerAdd.tst
+- ComputerMax.tst
+- ComputerRect.tst
+
+---
+
+## Part B: Python-Based Hack Assembler
+
+A two-pass assembler is implemented using Python.
+
+The assembler converts Hack assembly language (`.asm`) into 16-bit binary machine code (`.hack`).
+
+### First Pass
+- Removes comments and empty lines.
+- Identifies labels.
+- Stores label addresses in the symbol table.
+
+### Second Pass
+- Converts A-instructions into binary.
+- Converts C-instructions into binary.
+- Resolves predefined symbols and labels.
+- Allocates new variables beginning at RAM address 16.
+- Generates the `.hack` output file.
+
+### Personalized Extra Feature
+
+Since **82 mod 3 = 1**, the assembler includes line-numbered error handling.
+
+Example:
+
+```text
+Error: Line 7: invalid C-instruction: THIS_IS_NOT_A_HACK_INSTRUCTION
+```
+
+This helps identify invalid assembly instructions without displaying an unhandled Python exception.
+
+### Run the Assembler
+
+From the project root:
+
+```bash
+python capstone/assembler.py capstone/Box.asm
+```
+
+Expected output:
+
+```text
+Assembled capstone\Box.asm -> capstone\Box.hack
+```
+
+---
+
+## Part C: Keyboard-Controlled Rectangle
+
+The assembly program `Box.asm` displays a black rectangle on the Hack computer screen.
+
+### Working Principle
+
+1. The program continuously checks the keyboard memory address.
+2. When a key is pressed, the rectangle is drawn.
+3. When the key is released, the rectangle is cleared.
+4. The program repeats the process using a continuous loop.
+
+### Rectangle Specifications
+
+- Starting Row: 82
+- Height: 20 rows
+- Width: 48 pixels
+- Starting Address: 19008
+- Position: Left edge of the screen
+
+The program is assembled into `Box.hack` using the Python assembler and can be executed in the Nand2Tetris CPU Emulator.
+
+---
+
+## Project Structure
+
+```text
+NTT_Capstone_K82/
+│
+├── capstone/
+│   ├── CPU.hdl
+│   ├── Memory.hdl
+│   ├── Computer.hdl
+│   ├── assembler.py
+│   ├── Box.asm
+│   ├── Box.hack
+│   └── invalid_example.asm
+│
+├── README.md
+└── REPORT_TEMPLATE.md
+```
+
+*The structure above shows the main project files. Additional test files and supporting documents may be included.*
+
+---
+
+## Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| HDL | Hardware chip implementation |
+| Python | Two-pass assembler development |
+| Hack Assembly | Keyboard-controlled rectangle program |
+| Nand2Tetris Hardware Simulator | Testing HDL components |
+| Nand2Tetris CPU Emulator | Running machine code |
+| Visual Studio Code | Code development |
+| Git and GitHub | Version control and project submission |
+
+---
+
+## Testing and Verification
+
+### Assembler Verification
+
+The Python assembler was executed successfully to generate `Box.hack`.
+
+The personalized error-handling feature was also tested using an invalid instruction, producing a clear line-numbered error message.
+
+### Hardware Verification
+
+The project includes HDL implementations intended to be tested using the official Nand2Tetris test scripts.
+
+### Rectangle Verification
+
+The `Box.hack` program can be loaded into the CPU Emulator to check the rectangle's appearance and keyboard interaction.
+
+**Verification Note:** Official HDL test results and the final rectangle output require successful simulator execution before they can be reported as passed.
+
+---
+
+## Learning Outcomes
+
+Through this capstone project, the following concepts were explored:
+
+- Understanding the internal architecture of a computer.
+- Connecting hardware components using HDL.
+- Understanding CPU, memory, and instruction execution.
+- Converting assembly instructions into binary machine code.
+- Implementing symbol tables and error handling in Python.
+- Understanding memory-mapped screen and keyboard input.
+- Using GitHub for source-code management.
+
+---
+
+## Conclusion
+
+The Nand to Tetris capstone project demonstrates how hardware and software work together in a computer system.
+
+The project combines HDL-based computer architecture, Python assembler development, and Hack assembly programming to demonstrate instruction execution and memory-mapped input/output.
+
+It provides practical experience with the fundamental concepts of computer organization and low-level programming.
+
+---
+
+## References
+
+- [Official Nand2Tetris Website](https://www.nand2tetris.org/)
+- [Nand2Tetris Web IDE](https://nand2tetris.github.io/web-ide/)
+- [Official Nand2Tetris Project Files](https://github.com/nand2tetris/projects)
+
+---
+
+**Submitted By:** Vijaya Saxena  
+**Roll Number:** 25010182  
+**Course:** Nand to Tetris – I (ETCCNT301)  
+**University:** K.R. Mangalam University  
+**School of Engineering & Technology**
