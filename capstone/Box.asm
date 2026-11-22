@@ -1,0 +1,55 @@
+// K = 82: box begins at screen row 82, 20 rows high, 48 pixels wide.
+// Screen row 82 begins at 16384 + 32*82 = 19008.
+// 48 pixels = 3 consecutive 16-bit screen words.
+(LOOP)
+    @KBD
+    D=M
+    @DRAW
+    D;JNE
+    @CLEAR
+    0;JMP
+(DRAW)
+    @color
+    M=-1
+    @PAINT
+    0;JMP
+(CLEAR)
+    @color
+    M=0
+(PAINT)
+    @19008
+    D=A
+    @ptr
+    M=D
+    @20
+    D=A
+    @rows
+    M=D
+(ROW)
+    @3
+    D=A
+    @cols
+    M=D
+(COL)
+    @color
+    D=M
+    @ptr
+    A=M
+    M=D
+    @ptr
+    M=M+1
+    @cols
+    MD=M-1
+    @COL
+    D;JGT
+    // Skip 29 remaining screen words to reach next row.
+    @29
+    D=A
+    @ptr
+    M=D+M
+    @rows
+    MD=M-1
+    @ROW
+    D;JGT
+    @LOOP
+    0;JMP
